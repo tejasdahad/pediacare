@@ -10,7 +10,7 @@ const initialState = {
   prefDate:'',
   prefTime:''
 }
-const Contact = ({data, handlePatientApp}) => {
+const Contact = ({data, handlePatientApp, uid}) => {
   const [{ name, email, description, prefDate, prefTime }, setState] = useState(initialState);
 
   const handleChange = (e) => {
@@ -22,7 +22,7 @@ const Contact = ({data, handlePatientApp}) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const data1 ={
-      name, email, description, prefDate, prefTime, alloDate:'', alloTime:'', meetingLink:''
+      name, email, description, prefDate, prefTime, alloDate:'', alloTime:'', meetingLink:'', patUid:uid, confirm: false
     }
     console.log(data1);
 
@@ -207,8 +207,12 @@ const Contact = ({data, handlePatientApp}) => {
 }
 
 
+const mapStateToProps = (state) => ({
+  uid : state.auth.uid
+});
+
 const mapDispatchToProps = (dispatch) => ({
   handlePatientApp: (data) => dispatch(handlePatientApp(data))
 });
 
-export default connect(undefined, mapDispatchToProps)(Contact);
+export default connect(mapStateToProps, mapDispatchToProps)(Contact);

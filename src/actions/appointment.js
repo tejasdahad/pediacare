@@ -8,3 +8,15 @@ export const handlePatientApp = ({data1}) =>  async dispatch => {
 
     console.log('Appointment request added');
 }
+
+export const getAppointments = (uid) => async dispatch => {
+    const data = [];
+    firestore.collection('appointments').where('patUid','==',uid).onSnapshot((snapshot) => {
+        snapshot.forEach((doc) => data.push({ ...doc.data(), id: doc.id }));
+        console.log(data);
+        dispatch({
+            type:'GET_APPOINTMENT',
+            payload: data
+        });
+    });
+}

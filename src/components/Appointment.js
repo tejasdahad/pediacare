@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { Fragment, useEffect } from 'react';
+import Navigation from './navigation'
+import { connect } from 'react-redux';
+import { getAppointments } from '../actions/appointment';
+import AppointmentTable from './AppointmentTable';
 
-const Appointment = (props) => {
-    return (<p>Hello</p>)
+const Appointment = ({getAppointments, uid, appointments}) => {
+
+    return (
+        <Fragment>
+            <Navigation />
+            
+            <AppointmentTable />
+        </Fragment>
+    );
 }
 
-export default Appointment;
+const mapStateToProps = (state) => ({
+    uid : state.auth.uid,
+    appointments: state.appoi.appointments
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    getAppointments: (uid) => dispatch(getAppointments(uid))
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(Appointment);
