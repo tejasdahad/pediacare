@@ -13,7 +13,7 @@ export const PublicRoute = ({
                 <Component {...props} />
             </div>
         ) : (
-            <Redirect to="/dashboard" />
+            <Redirect to="/home" />
         )
     )} />
 );
