@@ -1,13 +1,17 @@
-import { useState } from 'react'
+import React,{ useState } from 'react'
 import emailjs from 'emailjs-com'
+import { connect } from 'react-redux';
+import { handlePatientApp } from '../actions/appointment';
 
 const initialState = {
   name: '',
   email: '',
-  message: '',
+  description: '',
+  prefDate:'',
+  prefTime:''
 }
-export const Contact = (props) => {
-  const [{ name, email, message }, setState] = useState(initialState)
+const Contact = ({data, handlePatientApp}) => {
+  const [{ name, email, description, prefDate, prefTime }, setState] = useState(initialState);
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -17,10 +21,15 @@ export const Contact = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(name, email, message)
+    const data1 ={
+      name, email, description, prefDate, prefTime, alloDate:'', alloTime:'', meetingLink:''
+    }
+    console.log(data1);
+
+    handlePatientApp({data1});
     emailjs
       .sendForm(
-        'YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', e.target, 'YOUR_USER_ID'
+        'service_a2ku5vd', 'template_oq6w4ml', e.target,'user_z1aRq6nlDEVNq9tutcj8V'
       )
       .then(
         (result) => {
@@ -31,6 +40,7 @@ export const Contact = (props) => {
           console.log(error.text)
         }
       )
+    clearState()
   }
   return (
     <div>
@@ -53,6 +63,7 @@ export const Contact = (props) => {
                         type='text'
                         id='name'
                         name='name'
+                        value={name}
                         className='form-control'
                         placeholder='Name'
                         required
@@ -70,6 +81,7 @@ export const Contact = (props) => {
                         className='form-control'
                         placeholder='Email'
                         required
+                        value={email}
                         onChange={handleChange}
                       />
                       <p className='help-block text-danger'></p>
@@ -78,19 +90,52 @@ export const Contact = (props) => {
                 </div>
                 <div className='form-group'>
                   <textarea
-                    name='message'
-                    id='message'
+                    name='description'
+                    id='description'
                     className='form-control'
                     rows='4'
-                    placeholder='Message'
+                    placeholder='Description'
                     required
+                    vaue={description}
                     onChange={handleChange}
                   ></textarea>
                   <p className='help-block text-danger'></p>
                 </div>
+                <div className='row'>
+                  <div className='col-md-6'>
+                    <div className='form-group'>
+                      <input
+                        type='text'
+                        id='prefDate'
+                        name='prefDate'
+                        value={prefDate}
+                        className='form-control'
+                        placeholder='Preferrable Date (Format dd/mm/yyyy)'
+                        required
+                        onChange={handleChange}
+                      />
+                      <p className='help-block text-danger'></p>
+                    </div>
+                  </div>
+                  <div className='col-md-6'>
+                    <div className='form-group'>
+                      <input
+                        type='text'
+                        id='prefTime'
+                        name='prefTime'
+                        className='form-control'
+                        placeholder='Preferrable Time (From 9 am to 8 pm)'
+                        required
+                        value={prefTime}
+                        onChange={handleChange}
+                      />
+                      <p className='help-block text-danger'></p>
+                    </div>
+                  </div>
+                </div>
                 <div id='success'></div>
                 <button type='submit' className='btn btn-custom btn-lg'>
-                  Send Message
+                  Send Request
                 </button>
               </form>
             </div>
@@ -102,7 +147,7 @@ export const Contact = (props) => {
                 <span>
                   <i className='fa fa-map-marker'></i> Address
                 </span>
-                {props.data ? props.data.address : 'loading'}
+                {data ? data.address : 'loading'}
               </p>
             </div>
             <div className='contact-item'>
@@ -110,7 +155,7 @@ export const Contact = (props) => {
                 <span>
                   <i className='fa fa-phone'></i> Phone
                 </span>{' '}
-                {props.data ? props.data.phone : 'loading'}
+                {data ? data.phone : 'loading'}
               </p>
             </div>
             <div className='contact-item'>
@@ -118,7 +163,7 @@ export const Contact = (props) => {
                 <span>
                   <i className='fa fa-envelope-o'></i> Email
                 </span>{' '}
-                {props.data ? props.data.email : 'loading'}
+                {data ? data.email : 'loading'}
               </p>
             </div>
           </div>
@@ -127,17 +172,17 @@ export const Contact = (props) => {
               <div className='social'>
                 <ul>
                   <li>
-                    <a href={props.data ? props.data.facebook : '/'}>
+                    <a href={data ? data.facebook : '/'}>
                       <i className='fa fa-facebook'></i>
                     </a>
                   </li>
                   <li>
-                    <a href={props.data ? props.data.twitter : '/'}>
+                    <a href={data ? data.twitter : '/'}>
                       <i className='fa fa-twitter'></i>
                     </a>
                   </li>
                   <li>
-                    <a href={props.data ? props.data.youtube : '/'}>
+                    <a href={data ? data.youtube : '/'}>
                       <i className='fa fa-youtube'></i>
                     </a>
                   </li>
@@ -160,3 +205,10 @@ export const Contact = (props) => {
     </div>
   )
 }
+
+
+const mapDispatchToProps = (dispatch) => ({
+  handlePatientApp: (data) => dispatch(handlePatientApp(data))
+});
+
+export default connect(undefined, mapDispatchToProps)(Contact);

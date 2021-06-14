@@ -33,7 +33,7 @@ firebase.auth().onAuthStateChanged((user) => {
         renderApp();
         if(history.location.pathname === '/') {
             history.push('/home');
-            
+            window.location.reload();
         }
         
         // store.dispatch(startSetExpenses()).then(() => {

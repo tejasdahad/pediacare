@@ -54,7 +54,7 @@ const Navigation = (props) => {
               </a>
             </li>
             <li>
-              <a className='page-scroll' onClick={props.startLogout}>
+              <a className='page-scroll' onClick={() => {props.startLogout();window.location.reload()}}>
                 Logout
               </a>
             </li>

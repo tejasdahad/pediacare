@@ -100,7 +100,7 @@ const SignInSide = ({startLogin}) => {
                 startLogin();
             ;}}
             >
-              Sign In
+              <span style={{fontSize:15}}>Sign In With Google</span>
             </Button>
             
             <Box mt={5}>
