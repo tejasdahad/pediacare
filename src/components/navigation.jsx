@@ -1,9 +1,25 @@
 import { connect } from "react-redux"
 import { startLogout } from "../actions/auth"
-
+import { Link } from 'react-router-dom'
+import { Fragment, useEffect, useState } from "react";
 const Navigation = (props) => {
+  const [f,setF] = useState(false);
+  const [auth, setAuth] = useState(false);
+  useEffect(() => {
+    if(window.location.pathname==='/home'){
+      setF(false);
+    }else{
+      setF(true);
+    }
+    if(window.location.pathname==='/'){
+      setAuth(false);
+    }else{
+      setAuth(true);
+    }
+  },[window.location]);
+  
   return (
-    <nav id='menu' className='navbar navbar-default navbar-fixed-top'>
+    (auth && <nav id='menu' className='navbar navbar-default navbar-fixed-top'>
       <div className='container'>
         <div className='navbar-header'>
           <button
@@ -28,7 +44,7 @@ const Navigation = (props) => {
           id='bs-example-navbar-collapse-1'
         >
           <ul className='nav navbar-nav navbar-right'>
-            <li>
+            {!f && <Fragment><li>
               <a href='#features' className='page-scroll'>
                 Features
               </a>
@@ -52,6 +68,16 @@ const Navigation = (props) => {
               <a href='#contact' className='page-scroll'>
                 Contact
               </a>
+            </li></Fragment>}
+            {f && <li>
+                <a href='/home' className="page-scroll">
+                  Home
+                </a>
+              </li>}
+            <li>
+              <a href="/appointments" className='page-scroll'>
+                My Appointments
+              </a>
             </li>
             <li>
               <a className='page-scroll' onClick={() => {props.startLogout();window.location.reload()}}>
@@ -61,12 +87,17 @@ const Navigation = (props) => {
           </ul>
         </div>
       </div>
-    </nav>
+    </nav>)
   )
 }
+
+
+const mapStateToProps = (state) => ({
+  isAuthenticated : !!state.auth.uid
+});
 
 const mapDispatchToProps = (dispatch) => ({
   startLogout: () => dispatch(startLogout())
 });
 
-export default connect(undefined,mapDispatchToProps)(Navigation);
+export default connect(mapStateToProps,mapDispatchToProps)(Navigation);
