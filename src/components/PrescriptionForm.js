@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,10 +16,12 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import { setCurrent } from '../actions/prescription';
+import {connect} from 'react-redux';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="body2" color="textSecondary" align="center" component="h5">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
         Pedia Care Clinic
@@ -59,13 +61,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PrescriptionForm = () => {
+const PrescriptionForm = ({setCurrent}) => {
   const classes = useStyles();
   const [pname, setPname] = useState('');
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('');
   const [date, setDate] = useState('');
   const [medicines, setMedicines] = useState('');
+
+  useEffect(() => {
+    if(localStorage.getItem('curr')){
+      setCurrent({uid: localStorage.getItem('curr')});
+    }
+  },[]);
 
   return (
     <Container component="main" maxWidth="sm">
@@ -157,6 +165,11 @@ const PrescriptionForm = () => {
                           root: classes.labelRoot,
                         }
                       }}
+                      value={medicines}
+                      onChange={e=> {
+                        e.preventDefault();
+                        setMedicines(e.target.value);
+                      }}
                     variant="outlined"
                     />
             </Grid>
@@ -167,10 +180,9 @@ const PrescriptionForm = () => {
                     e.preventDefault();
                     setGender(e.target.value);
                 }}>
-                    <FormControlLabel style={{fontSize:16}} value="female" control={<Radio />} label="Female" />
+                    <FormControlLabel value="female" control={<Radio />} label="Female" />
                     <FormControlLabel value="male" control={<Radio />} label="Male" />
                     <FormControlLabel value="other" control={<Radio />} label="Other" />
-                    <FormControlLabel value="disabled" disabled control={<Radio />} label="(Disabled option)" />
                 </RadioGroup>
                 </FormControl>
             </Grid>
@@ -193,4 +205,13 @@ const PrescriptionForm = () => {
   );
 }
 
-export default PrescriptionForm;
+const mapStateToProps = (state) => ({
+  uid : state.auth.uid,
+  appointments: state.appoi.appointments
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setCurrent: ({uid}) => dispatch(setCurrent({uid}))
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(PrescriptionForm);

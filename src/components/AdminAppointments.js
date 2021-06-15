@@ -9,6 +9,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { getAllAppointments } from '../actions/appointment';
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom';
+import { setCurrent } from '../actions/prescription';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -47,11 +49,16 @@ const useStyles = makeStyles({
   },
 });
 
-const AdminAppointments = ({getAllAppointments, uid, appointments}) => {
+const AdminAppointments = ({getAllAppointments, uid, appointments, setCurrent, history}) => {
   const classes = useStyles();
     useEffect(() => {
         getAllAppointments();
     },[]);
+
+    const handleClick = ({row}) => {
+      console.log(row);
+      localStorage.setItem('curr',row.patUid);
+    }
 
   return (
     <TableContainer component={Paper} style={{marginTop:100, width:"80%",marginLeft:"auto", marginRight:"auto"}}>
@@ -76,7 +83,9 @@ const AdminAppointments = ({getAllAppointments, uid, appointments}) => {
               <StyledTableCell align="center">{row.appDate===''?'-':row.appDate}</StyledTableCell>
               <StyledTableCell align="center">{row.appTime===''?'-':row.appTime}</StyledTableCell>
               <StyledTableCell align="center">{row.phone===''?'-':row.phone}</StyledTableCell>
-              <StyledTableCell align="center">{row.meetingLink===''?'-':row.meetingLink}</StyledTableCell>
+              <StyledTableCell align="center">{row.prescription===''?<a href='/form' onClick={e => {
+                handleClick({row})
+              }}>Add Prescription</a>:row.prescription}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
@@ -90,7 +99,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getAllAppointments: () => dispatch(getAllAppointments())
+    getAllAppointments: () => dispatch(getAllAppointments()),
+    setCurrent: ({uid}) => dispatch(setCurrent({uid}))
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(AdminAppointments);
