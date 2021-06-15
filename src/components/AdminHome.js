@@ -18,6 +18,7 @@ const AdminHome = () => {
 
   return (
     <div>
+      <Navigation />
       <Header data={landingPageData.AdminHeader} />
       <AdminAppointments />
     </div>

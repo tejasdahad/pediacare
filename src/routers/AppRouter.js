@@ -10,6 +10,7 @@ import { createBrowserHistory } from "history";
 import Appointment from '../components/Appointment';
 import AdminHome from '../components/AdminHome';
 import Prescription from '../components/Prescription';
+import PrescriptionForm from '../components/PrescriptionForm';
 export const history = createBrowserHistory();
 
 const AppRouter = () => (
@@ -21,6 +22,7 @@ const AppRouter = () => (
                 <PrivateRoute path='/appointments' component={Appointment} />
                 <PrivateRoute path='/admin' component={AdminHome} />
                 <PrivateRoute path='/prescription' component={Prescription} />
+                <PrivateRoute path='/form' component={PrescriptionForm} />
                 <Route component={NotFoundPage} />
             </Switch>
         </div>
