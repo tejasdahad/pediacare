@@ -8,6 +8,8 @@ import Landing from '../Landing';
 import Navigation from '../components/navigation';
 import { createBrowserHistory } from "history";
 import Appointment from '../components/Appointment';
+import AdminHome from '../components/AdminHome';
+import Prescription from '../components/Prescription';
 export const history = createBrowserHistory();
 
 const AppRouter = () => (
@@ -17,6 +19,8 @@ const AppRouter = () => (
                 <Route exact path='/' component={LoginPage} />
                 <PrivateRoute path='/home' component={Landing} />
                 <PrivateRoute path='/appointments' component={Appointment} />
+                <PrivateRoute path='/admin' component={AdminHome} />
+                <PrivateRoute path='/prescription' component={Prescription} />
                 <Route component={NotFoundPage} />
             </Switch>
         </div>

@@ -1,7 +1,21 @@
 import React,{ useState } from 'react'
 import emailjs from 'emailjs-com'
 import { connect } from 'react-redux';
-import { handlePatientApp } from '../actions/appointment';
+import { handlePatientApp, getAllAppointments } from '../actions/appointment';
+import {
+  DatePicker,
+  TimePicker,
+  DateTimePicker,
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+import { Typography, Button } from '@material-ui/core';
+
+// pick a date util library
+import MomentUtils from '@date-io/moment';
+import DateFnsUtils from '@date-io/date-fns';
+import LuxonUtils from '@date-io/luxon';
+import { useEffect } from 'react';
 
 const initialState = {
   name: '',
@@ -10,36 +24,75 @@ const initialState = {
   prefDate:'',
   prefTime:''
 }
-const Contact = ({data, handlePatientApp, uid}) => {
-  const [{ name, email, description, prefDate, prefTime }, setState] = useState(initialState);
+const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}) => {
+  useEffect(() => {
+    getAllAppointments();
+  },[]);
 
+  
+  const [{ name, email, description, prefDate, prefTime, phone }, setState] = useState(initialState);
+  const [selectedDate, handleDateChange] = useState(new Date());
+  const [slots, setSlots] = useState(["5:00","5:15","5:30","5:45","6:00","6:15","6:30","6:45"]);
   const handleChange = (e) => {
     const { name, value } = e.target
     setState((prevState) => ({ ...prevState, [name]: value }))
   }
   const clearState = () => setState({ ...initialState })
+  useEffect(() => {
+    console.log("In use")
+    if(appointments){
+      var at= formatDate(selectedDate);
+      console.log(at)
+      const temp = appointments.filter((a) => a.prefDate==at);
+      console.log(temp);
+      var da=[];
+      temp.map(a => {
+        da.push(a.prefTime);
+      });
+      var s = ["5:00","5:15","5:30","5:45","6:00","6:15","6:30","6:45"];
+      s = s.filter(val => !da.includes(val));
+      console.log(s);
+      setSlots(s);
+    }
+    
+  },[appointments, selectedDate]);
+
+  const formatDate = (date) => {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [day, month, year].join('/');
+}
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    var a=formatDate(selectedDate);
     const data1 ={
-      name, email, description, prefDate, prefTime, alloDate:'', alloTime:'', meetingLink:'', patUid:uid, confirm: false
+      name, email, description, phone, appDate: a, appTime:prefTime, meetingLink:'', patUid:uid
     }
     console.log(data1);
 
     handlePatientApp({data1});
-    emailjs
-      .sendForm(
-        'service_a2ku5vd', 'template_oq6w4ml', e.target,'user_z1aRq6nlDEVNq9tutcj8V'
-      )
-      .then(
-        (result) => {
-          console.log(result.text)
-          clearState()
-        },
-        (error) => {
-          console.log(error.text)
-        }
-      )
+    // emailjs
+    //   .sendForm(
+    //     'service_a2ku5vd', 'template_oq6w4ml', e.target,'user_z1aRq6nlDEVNq9tutcj8V'
+    //   )
+    //   .then(
+    //     (result) => {
+    //       console.log(result.text)
+    //       clearState()
+    //     },
+    //     (error) => {
+    //       console.log(error.text)
+    //     }
+    //   )
     clearState()
   }
   return (
@@ -101,9 +154,45 @@ const Contact = ({data, handlePatientApp, uid}) => {
                   ></textarea>
                   <p className='help-block text-danger'></p>
                 </div>
+                <div className="row">
+                  <div className="col-md-6">
+                <div className='form-group'>
+                      <input
+                        type='text'
+                        id='phone'
+                        name='phone'
+                        value={phone}
+                        className='form-control'
+                        placeholder='Whatsapp Number'
+                        required
+                        onChange={handleChange}
+                      />
+                      <p className='help-block text-danger'></p>
+                    </div>
+                    </div>
+                </div>
                 <div className='row'>
-                  <div className='col-md-6'>
-                    <div className='form-group'>
+                  <div className='col-md-4'>
+                    <div className="form-group" style={{fontSize:"100px"}}> 
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        minDate={new Date()}
+                        style={{fontWeight:1000}}
+                        className="form-control"
+                        disableToolbar
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                        id="date-picker-inline"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                      </MuiPickersUtilsProvider>
+                    </div>
+                  
+                    {/* {<div className='form-group'>
                       <input
                         type='text'
                         id='prefDate'
@@ -115,10 +204,23 @@ const Contact = ({data, handlePatientApp, uid}) => {
                         onChange={handleChange}
                       />
                       <p className='help-block text-danger'></p>
-                    </div>
+                    </div>} */}
                   </div>
-                  <div className='col-md-6'>
-                    <div className='form-group'>
+                  </div>
+                  <div className="row">
+                  <div className='col-md-12'>
+                    {selectedDate && <p>Slots:</p>}
+                      {selectedDate && slots.map(slot => 
+                          <Button
+                          variant="contained"
+                          color={slot==prefTime?"primary":"default"}
+                          style={{fontSize:20}}
+                          onClick={(e) => {
+                          e.preventDefault();
+                          setState((prevState) => ({ ...prevState, prefTime: slot }))
+                          
+                      }}>{slot}</Button>)}
+                    {/* {<div className='form-group'>
                       <input
                         type='text'
                         id='prefTime'
@@ -130,7 +232,7 @@ const Contact = ({data, handlePatientApp, uid}) => {
                         onChange={handleChange}
                       />
                       <p className='help-block text-danger'></p>
-                    </div>
+                    </div>*/}
                   </div>
                 </div>
                 <div id='success'></div>
@@ -208,11 +310,13 @@ const Contact = ({data, handlePatientApp, uid}) => {
 
 
 const mapStateToProps = (state) => ({
-  uid : state.auth.uid
+  uid : state.auth.uid,
+  appointments: state.appoi.appointments
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handlePatientApp: (data) => dispatch(handlePatientApp(data))
+  handlePatientApp: (data) => dispatch(handlePatientApp(data)),
+  getAllAppointments: () => dispatch(getAllAppointments())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contact);

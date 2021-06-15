@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { getAppointments } from '../actions/appointment';
+import { getAllAppointments } from '../actions/appointment';
 import { connect } from 'react-redux'
 
 const StyledTableCell = withStyles((theme) => ({
@@ -47,15 +47,15 @@ const useStyles = makeStyles({
   },
 });
 
-const CustomizedTables = ({getAppointments, uid, appointments}) => {
+const AdminAppointments = ({getAllAppointments, uid, appointments}) => {
   const classes = useStyles();
     useEffect(() => {
-        getAppointments(uid);
+        getAllAppointments();
     },[]);
 
   return (
     <TableContainer component={Paper} style={{marginTop:100, width:"80%",marginLeft:"auto", marginRight:"auto"}}>
-      <Table className={classes.table} aria-label="customized table">
+      {appointments && <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Patient Name</StyledTableCell>
@@ -80,18 +80,18 @@ const CustomizedTables = ({getAppointments, uid, appointments}) => {
             </StyledTableRow>
           ))}
         </TableBody>
-      </Table>
+      </Table>}
     </TableContainer>
   );
 }
 const mapStateToProps = (state) => ({
     uid : state.auth.uid,
-    appointments: state.appoi.patientAppointments
+    appointments: state.appoi.appointments
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getAppointments: (uid) => dispatch(getAppointments(uid))
+    getAllAppointments: () => dispatch(getAllAppointments())
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(CustomizedTables);
+export default connect(mapStateToProps,mapDispatchToProps)(AdminAppointments);
 // export default CustomizedTables;

@@ -9,7 +9,6 @@ const Appointment = ({getAppointments, uid, appointments}) => {
     return (
         <Fragment>
             <Navigation />
-            
             <AppointmentTable />
         </Fragment>
     );

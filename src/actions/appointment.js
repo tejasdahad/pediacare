@@ -20,3 +20,18 @@ export const getAppointments = (uid) => async dispatch => {
         });
     });
 }
+
+export const getAllAppointments = () => async dispatch => {
+    const data = [];
+    firestore.collection('appointments').onSnapshot((snapshot) => {
+        snapshot.forEach((doc) => data.push({ ...doc.data(), id: doc.id }));
+        console.log(data);
+        dispatch({
+            type:'GET_ALL_APPOINTMENT',
+            payload: data
+        });
+    });
+}
+
+
+

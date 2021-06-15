@@ -509,18 +509,23 @@ label {
 	outline: 0;
 	-webkit-box-shadow: transparent;
 	box-shadow: transparent;
+	font-size: large;
 }
 .form-control::-webkit-input-placeholder {
 color: #777;
+font-size: large;
 }
 .form-control:-moz-placeholder {
 color: #777;
+font-size: large;
 }
 .form-control::-moz-placeholder {
 color: #777;
+font-size: large;
 }
 .form-control:-ms-input-placeholder {
 color: #777;
+font-size: large;
 }
 #contact .contact-item {
 	margin: 20px 0;
