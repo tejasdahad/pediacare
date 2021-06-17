@@ -11,6 +11,8 @@ import Appointment from '../components/Appointment';
 import AdminHome from '../components/AdminHome';
 import Prescription from '../components/Prescription';
 import PrescriptionForm from '../components/PrescriptionForm';
+import PrescriptionPad from '../components/PrescriptionPad';
+import Pres from '../components/Pres'
 export const history = createBrowserHistory();
 
 const AppRouter = () => (
@@ -23,6 +25,7 @@ const AppRouter = () => (
                 <PrivateRoute path='/admin' component={AdminHome} />
                 <PrivateRoute path='/prescription' component={Prescription} />
                 <PrivateRoute path='/form' component={PrescriptionForm} />
+                <PrivateRoute path='/pad' component={Pres} />
                 <Route component={NotFoundPage} />
             </Switch>
         </div>

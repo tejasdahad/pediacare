@@ -76,7 +76,7 @@ const CustomizedTables = ({getAppointments, uid, appointments}) => {
               <StyledTableCell align="center">{row.appDate===''?'-':row.appDate}</StyledTableCell>
               <StyledTableCell align="center">{row.appTime===''?'-':row.appTime}</StyledTableCell>
               <StyledTableCell align="center">{row.phone===''?'-':row.phone}</StyledTableCell>
-              <StyledTableCell align="center">{row.meetingLink===''?'-':row.meetingLink}</StyledTableCell>
+              <StyledTableCell align="center">{row.prescription===''?'-':row.prescription}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

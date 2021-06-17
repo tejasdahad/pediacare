@@ -58,6 +58,7 @@ const AdminAppointments = ({getAllAppointments, uid, appointments, setCurrent, h
     const handleClick = ({row}) => {
       console.log(row);
       localStorage.setItem('curr',row.patUid);
+      localStorage.setItem('app',row.id);
     }
 
   return (
@@ -83,7 +84,7 @@ const AdminAppointments = ({getAllAppointments, uid, appointments, setCurrent, h
               <StyledTableCell align="center">{row.appDate===''?'-':row.appDate}</StyledTableCell>
               <StyledTableCell align="center">{row.appTime===''?'-':row.appTime}</StyledTableCell>
               <StyledTableCell align="center">{row.phone===''?'-':row.phone}</StyledTableCell>
-              <StyledTableCell align="center">{row.prescription===''?<a href='/form' onClick={e => {
+              <StyledTableCell align="center">{row.prescription===''?<a href='/pad' onClick={e => {
                 handleClick({row})
               }}>Add Prescription</a>:row.prescription}</StyledTableCell>
             </StyledTableRow>

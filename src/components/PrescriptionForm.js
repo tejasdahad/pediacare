@@ -16,7 +16,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import { setCurrent } from '../actions/prescription';
+import { setCurrent, savePres } from '../actions/prescription';
 import {connect} from 'react-redux';
 
 function Copyright() {
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PrescriptionForm = ({setCurrent}) => {
+const PrescriptionForm = ({setCurrent, savePres, current, history}) => {
   const classes = useStyles();
   const [pname, setPname] = useState('');
   const [age, setAge] = useState('');
@@ -74,6 +74,20 @@ const PrescriptionForm = ({setCurrent}) => {
       setCurrent({uid: localStorage.getItem('curr')});
     }
   },[]);
+
+  const onSubmit = (e) =>{
+    e.preventDefault();
+    const data = {
+      pname,age,gender,date,medicines, patUid:current, appoiId:localStorage.getItem('app')
+    }
+    //savePres({data});
+    setPname('');
+    setAge('');
+    setGender('');
+    setDate('');
+    setMedicines('');
+    console.log(history);
+  } 
 
   return (
     <Container component="main" maxWidth="sm">
@@ -193,6 +207,7 @@ const PrescriptionForm = ({setCurrent}) => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={onSubmit}
           >
             Save and preview prescription
           </Button>
@@ -207,11 +222,13 @@ const PrescriptionForm = ({setCurrent}) => {
 
 const mapStateToProps = (state) => ({
   uid : state.auth.uid,
-  appointments: state.appoi.appointments
+  appointments: state.appoi.appointments,
+  current: state.presc.current
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrent: ({uid}) => dispatch(setCurrent({uid}))
+  setCurrent: ({uid}) => dispatch(setCurrent({uid})),
+  savePres: ({data}) => dispatch(savePres({data}))
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(PrescriptionForm);

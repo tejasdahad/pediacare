@@ -75,7 +75,7 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
     e.preventDefault()
     var a=formatDate(selectedDate);
     const data1 ={
-      name, email, description, phone, appDate: a, appTime:prefTime, meetingLink:'', patUid:uid
+      name, email, description, phone, appDate: a, appTime:prefTime, prescription:'', patUid:uid
     }
     console.log(data1);
 

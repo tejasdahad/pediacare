@@ -8,9 +8,15 @@ export default (state = {} , action) => {
             };
         case 'REMOVE_CURRENT':
             localStorage.removeItem('curr');
+            localStorage.removeItem('app')
             return {
                 ...state,
                 current: null
+            };
+        case 'SET_PRESCRIPTION':
+            return {
+                ...state,
+                prescription: action.payload
             };
         default:
             return state;
