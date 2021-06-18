@@ -86,7 +86,9 @@ const AdminAppointments = ({getAllAppointments, uid, appointments, setCurrent, h
               <StyledTableCell align="center">{row.phone===''?'-':row.phone}</StyledTableCell>
               <StyledTableCell align="center">{row.prescription===''?<a href='/pad' onClick={e => {
                 handleClick({row})
-              }}>Add Prescription</a>:row.prescription}</StyledTableCell>
+              }}>Add Prescription</a>:<a href='/prescription' onClick={e => {
+                handleClick({row})
+              }}>View Prescription</a>}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

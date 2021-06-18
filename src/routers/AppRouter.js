@@ -13,6 +13,7 @@ import Prescription from '../components/Prescription';
 import PrescriptionForm from '../components/PrescriptionForm';
 import PrescriptionPad from '../components/PrescriptionPad';
 import Pres from '../components/Pres'
+import PrescPage from '../components/PrescPage';
 export const history = createBrowserHistory();
 
 const AppRouter = () => (
@@ -23,9 +24,9 @@ const AppRouter = () => (
                 <PrivateRoute path='/home' component={Landing} />
                 <PrivateRoute path='/appointments' component={Appointment} />
                 <PrivateRoute path='/admin' component={AdminHome} />
-                <PrivateRoute path='/prescription' component={Prescription} />
+                <PrivateRoute path='/prescription' component={Pres} />
                 <PrivateRoute path='/form' component={PrescriptionForm} />
-                <PrivateRoute path='/pad' component={Pres} />
+                <PrivateRoute path='/pad' component={PrescriptionPad} />
                 <Route component={NotFoundPage} />
             </Switch>
         </div>

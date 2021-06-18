@@ -1,5 +1,6 @@
 import React from "react";
 import ReactToPrint from "react-to-print";
+import PrescPage from "./PrescPage";
 import PrescriptionPad from "./PrescriptionPad";
 
 class ComponentToPrint extends React.Component {
@@ -42,7 +43,7 @@ class Example extends React.Component {
           content={() => this.componentRef}
         />
         <div ref={el => (this.componentRef = el)}>
-        <PrescriptionPad  />
+        <PrescPage  />
         </div>
         
       </div>

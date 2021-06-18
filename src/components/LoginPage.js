@@ -34,7 +34,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Pedia Care
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -85,8 +85,9 @@ const SignInSide = ({startLogin}) => {
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
+          <Typography component="h1" variant="h2" align="center">
+            Welcome to Pedia Care Clinic.
+            <p>Sign In to continue</p>
           </Typography>
           <form className={classes.form} noValidate>
             <Button

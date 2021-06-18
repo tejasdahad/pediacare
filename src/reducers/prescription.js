@@ -18,6 +18,11 @@ export default (state = {} , action) => {
                 ...state,
                 prescription: action.payload
             };
+        case 'GET_PRESCRIPTION':
+            return {
+                ...state,
+                prescription: action.payload
+            }
         default:
             return state;
     }

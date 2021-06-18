@@ -31,3 +31,15 @@ export const savePres = ({data}) => async dispatch => {
         });
     });
 }
+
+export const getPrescription = (uid) => async dispatch => {
+    const data = [];
+    firestore.collection('prescription').where('appoiId','==',uid).onSnapshot((snapshot) => {
+        snapshot.forEach((doc) => data.push({ ...doc.data(), id: doc.id }));
+        console.log(data);
+        dispatch({
+            type:'GET_PRESCRIPTION',
+            payload: data[0]
+        });
+    });
+}
