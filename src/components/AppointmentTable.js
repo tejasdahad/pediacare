@@ -53,6 +53,12 @@ const CustomizedTables = ({getAppointments, uid, appointments}) => {
         getAppointments(uid);
     },[]);
 
+    const handleClick = ({row}) => {
+      console.log(row);
+      localStorage.setItem('curr',row.patUid);
+      localStorage.setItem('app',row.id);
+    }
+
   return (
     <TableContainer component={Paper} style={{marginTop:100, width:"80%",marginLeft:"auto", marginRight:"auto"}}>
       <Table className={classes.table} aria-label="customized table">
@@ -76,7 +82,9 @@ const CustomizedTables = ({getAppointments, uid, appointments}) => {
               <StyledTableCell align="center">{row.appDate===''?'-':row.appDate}</StyledTableCell>
               <StyledTableCell align="center">{row.appTime===''?'-':row.appTime}</StyledTableCell>
               <StyledTableCell align="center">{row.phone===''?'-':row.phone}</StyledTableCell>
-              <StyledTableCell align="center">{row.prescription===''?'-':row.prescription}</StyledTableCell>
+              <StyledTableCell align="center">{row.prescription===''?'-':<a href='/patient/prescription' onClick={e => {
+                handleClick({row})
+              }}>View Prescription</a>}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

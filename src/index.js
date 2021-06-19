@@ -32,7 +32,7 @@ firebase.auth().onAuthStateChanged((user) => {
         store.dispatch(login({user}))
         renderApp();
         if(history.location.pathname === '/') {
-            if(user.email==='tejasdahad000@gmail.com'){
+            if(user.email==='pediacareclinic.drpayal@gmail.com'){
                 history.push('/admin');
             }else{
                 history.push('/home');

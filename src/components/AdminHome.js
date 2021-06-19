@@ -13,7 +13,7 @@ export const scroll = new SmoothScroll('a[href*="#"]', {
 const AdminHome = () => {
     const [landingPageData, setLandingPageData] = useState({})
   useEffect(() => {
-    setLandingPageData(JsonData)
+    setLandingPageData(JsonData);
   }, []);
 
   return (

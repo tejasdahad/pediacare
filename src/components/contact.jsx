@@ -20,9 +20,9 @@ import { useEffect } from 'react';
 const initialState = {
   name: '',
   email: '',
-  description: '',
   prefDate:'',
-  prefTime:''
+  prefTime:'',
+  phone:''
 }
 const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}) => {
   useEffect(() => {
@@ -30,24 +30,29 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
   },[]);
 
   
-  const [{ name, email, description, prefDate, prefTime, phone }, setState] = useState(initialState);
+  const [{ name, email, prefDate, prefTime, phone }, setState] = useState(initialState);
+  const [description,setDescription]=useState('');
   const [selectedDate, handleDateChange] = useState(new Date());
   const [slots, setSlots] = useState(["5:00","5:15","5:30","5:45","6:00","6:15","6:30","6:45"]);
   const handleChange = (e) => {
     const { name, value } = e.target
     setState((prevState) => ({ ...prevState, [name]: value }))
   }
-  const clearState = () => setState({ ...initialState })
+  const clearState = () => {
+    setState({ ...initialState })
+    handleDateChange(new Date());
+    setDescription('');
+  }
   useEffect(() => {
     console.log("In use")
     if(appointments){
       var at= formatDate(selectedDate);
       console.log(at)
-      const temp = appointments.filter((a) => a.prefDate==at);
+      const temp = appointments.filter((a) => a.appDate==at);
       console.log(temp);
       var da=[];
       temp.map(a => {
-        da.push(a.prefTime);
+        da.push(a.appTime);
       });
       var s = ["5:00","5:15","5:30","5:45","6:00","6:15","6:30","6:45"];
       s = s.filter(val => !da.includes(val));
@@ -80,19 +85,19 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
     console.log(data1);
 
     handlePatientApp({data1});
-    // emailjs
-    //   .sendForm(
-    //     'service_a2ku5vd', 'template_oq6w4ml', e.target,'user_z1aRq6nlDEVNq9tutcj8V'
-    //   )
-    //   .then(
-    //     (result) => {
-    //       console.log(result.text)
-    //       clearState()
-    //     },
-    //     (error) => {
-    //       console.log(error.text)
-    //     }
-    //   )
+    emailjs
+      .sendForm(
+        'service_a2ku5vd', 'template_oq6w4ml', e.target,'user_z1aRq6nlDEVNq9tutcj8V'
+      )
+      .then(
+        (result) => {
+          console.log(result.text)
+          clearState()
+        },
+        (error) => {
+          console.log(error.text)
+        }
+      )
     clearState()
   }
   return (
@@ -150,7 +155,7 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
                     placeholder='Description'
                     required
                     vaue={description}
-                    onChange={handleChange}
+                    onChange={e => setDescription(e.target.value)}
                   ></textarea>
                   <p className='help-block text-danger'></p>
                 </div>
@@ -237,7 +242,7 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
                 </div>
                 <div id='success'></div>
                 <button type='submit' className='btn btn-custom btn-lg'>
-                  Send Request
+                    Book Appointment
                 </button>
               </form>
             </div>
@@ -257,39 +262,16 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
                 <span>
                   <i className='fa fa-phone'></i> Phone
                 </span>{' '}
-                {data ? data.phone : 'loading'}
+                {data ? <a href="tel:+919920739678" style={{color:"white"}}>9920739678</a> : 'loading'}
               </p>
             </div>
             <div className='contact-item'>
               <p>
                 <span>
-                  <i className='fa fa-envelope-o'></i> Email
+                  <i className='fa fa-envelope'></i> Email
                 </span>{' '}
-                {data ? data.email : 'loading'}
+                {data ? <a href="mailto:pediacareclinic.drpayal@gmail.com" style={{color:"white"}}>pediacareclinic.drpayal@gmail.com</a> : 'loading'}
               </p>
-            </div>
-          </div>
-          <div className='col-md-12'>
-            <div className='row'>
-              <div className='social'>
-                <ul>
-                  <li>
-                    <a href={data ? data.facebook : '/'}>
-                      <i className='fa fa-facebook'></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href={data ? data.twitter : '/'}>
-                      <i className='fa fa-twitter'></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href={data ? data.youtube : '/'}>
-                      <i className='fa fa-youtube'></i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
             </div>
           </div>
         </div>
@@ -297,10 +279,7 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
       <div id='footer'>
         <div className='container text-center'>
           <p>
-            &copy; 2020 Issaaf Kattan React Land Page Template. Design by{' '}
-            <a href='http://www.templatewire.com' rel='nofollow'>
-              TemplateWire
-            </a>
+            &copy; 2021 Pedia Care Clinic.
           </p>
         </div>
       </div>
