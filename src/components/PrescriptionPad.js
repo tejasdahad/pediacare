@@ -30,6 +30,11 @@ const useStyles = makeStyles((theme) => ({
     width:"5%",
     height:"10%"
   },
+  sign: {
+    backgroundColor: "white",
+    width:"20%",
+    height:"40%"
+  },
 }));
 const theme = createMuiTheme({
     typography: {
@@ -136,6 +141,8 @@ const PrescriptionPad = ({setCurrent, savePres, current, history, clearCurrent})
 
             </Grid>
             <Grid item xs={4}>
+            <Avatar variant="square" className={classes.sign} src="/img/sign.jpeg" style={{marginTop:20, marginLeft:40, marginBottom:0}}>
+                </Avatar> 
             <Typography variant="h6" component="h2" align="center" style={{marginTop:10, fontFamily:"Pangolin"}}>
                 Dr. Payal Laddha
             </Typography>
