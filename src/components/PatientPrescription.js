@@ -30,6 +30,20 @@ const useStyles = makeStyles((theme) => ({
     width:20,
     height:20
   },
+  sign1: {
+    [theme.breakpoints.down('sm')]: {
+      width:"60%",
+      marginLeft:20
+    },
+    [theme.breakpoints.up('sm')]: {
+      width:"30%",
+      marginLeft:80
+    },
+    [theme.breakpoints.up('lg')]: {
+      width:"20%",
+      marginLeft:140
+    }
+  },
 }));
 const theme = createMuiTheme({
     typography: {
@@ -57,16 +71,6 @@ const PrescriptionPad = ({setCurrent, savePres, current, history, clearCurrent,g
     }
   },[]);
 
-  const onSubmit = (e) =>{
-    e.preventDefault();
-    const data = {
-      pname,age_sex,date,medicines,co,inv, patUid:current, appoiId:localStorage.getItem('app')
-    }
-    savePres({data});
-    setF(true);
-    console.log(history);
-  }
-
   const handleClick = (e) => {
       e.preventDefault();
       clearCurrent();
@@ -80,7 +84,7 @@ const PrescriptionPad = ({setCurrent, savePres, current, history, clearCurrent,g
     <div className={classes.root}>
       <Paper variant="outlined" style={{borderColor:"black"}}>
         <Typography variant="h4" component="h2" align="center" style={{marginTop:10}}>
-            Pedia Care Clinic
+            Panacea Pedia Care Clinic
         </Typography>
         <Typography variant="h6" component="h2" align="center" style={{marginTop:10, fontFamily:"Pangolin"}}>
             Dr. Payal Laddha
@@ -131,23 +135,38 @@ const PrescriptionPad = ({setCurrent, savePres, current, history, clearCurrent,g
         </Grid>
         
         <Grid container>
-            <Grid item xs={8}>
+        <Grid item xs={8}>
 
-            </Grid>
-            <Grid item xs={4}>
-            <Typography variant="h6" component="h2" align="center" style={{marginTop:10, fontFamily:"Pangolin"}}>
-                Dr. Payal Laddha
-            </Typography>
-            <Typography variant="h6" component="h2" align="center" style={{fontFamily:"Pangolin"}}>
-                (MBBS, DCH, DNB)
-            </Typography>
-            <Typography variant="h6" component="h2" align="center" style={{marginTop:0,fontFamily:"Pangolin"}}>
-                <b>Consulted Pediatrician</b>
-            </Typography>
-            <Typography variant="body1" component="h2" align="center" style={{marginTop:0,fontFamily:"Pangolin"}}>
-                Reg no. 2015/05/2626
-            </Typography>
-            </Grid>
+        </Grid>
+        <Grid item xs={4}>
+          <Grid container>
+          <Grid item xs={12}>
+          {/* <Avatar variant="square" className={classes.sign} src="/img/sign.jpeg" style={{marginTop:20, marginLeft:120,width:"30%", height:"100%", marginBottom:40}}>
+            </Avatar>  */}
+            <img src="/img/sign.jpeg" alt="sign" className={classes.sign1}/>
+          </Grid>
+        <Grid item xs={12}>
+        <Typography variant="h6" component="h2" align="center" style={{marginTop:10, fontFamily:"Pangolin"}}>
+            Dr. Payal Laddha
+        </Typography>  
+        </Grid>
+        <Grid item xs={12}>
+        <Typography variant="h6" component="h2" align="center" style={{fontFamily:"Pangolin"}}>
+            (MBBS, DCH, DNB)
+        </Typography>
+        </Grid>
+        <Grid item xs={12}>
+        <Typography variant="h6" component="h2" align="center" style={{marginTop:0,fontFamily:"Pangolin"}}>
+            <b>Consulted Pediatrician</b>
+        </Typography>
+        </Grid>
+        <Grid item xs={12}>
+        <Typography variant="body1" component="h2" align="center" style={{marginTop:0,fontFamily:"Pangolin"}}>
+            Reg no. 2015/05/2626
+        </Typography>
+        </Grid>
+        </Grid>
+        </Grid>
         </Grid>
         <Divider style={{width:"100%", height:"3" ,backgroundColor:"black"}}/>
       </Paper>

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { Typography, Grid } from '@material-ui/core';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { Divider,Button } from '@material-ui/core';
+import { Divider,Button,Row } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import { setCurrent, savePres, clearCurrent } from '../actions/prescription';
 import {connect} from 'react-redux';
@@ -32,8 +32,21 @@ const useStyles = makeStyles((theme) => ({
   },
   sign: {
     backgroundColor: "white",
-    width:"20%",
-    height:"40%"
+    width:"100%",
+    height:"100%",marginLeft:40
+  },
+  sign1: {
+    [theme.breakpoints.down('md')]: {
+      width:"80%",
+    },
+    [theme.breakpoints.up('md')]: {
+      width:"30%",
+      marginLeft:80
+    },
+    [theme.breakpoints.up('lg')]: {
+      width:"30%",
+      marginLeft:100
+    }
   },
 }));
 const theme = createMuiTheme({
@@ -88,7 +101,7 @@ const PrescriptionPad = ({setCurrent, savePres, current, history, clearCurrent})
     <div className={classes.root}>
       <Paper variant="outlined" style={{borderColor:"black"}}>
         <Typography variant="h4" component="h2" align="center" style={{marginTop:10}}>
-            Pedia Care Clinic
+            Panacea Pedia Care Clinic
         </Typography>
         <Typography variant="h6" component="h2" align="center" style={{marginTop:10, fontFamily:"Pangolin"}}>
             Dr. Payal Laddha
@@ -101,14 +114,14 @@ const PrescriptionPad = ({setCurrent, savePres, current, history, clearCurrent})
         </Typography>
         <Divider style={{width:"100%", height:"3" ,backgroundColor:"black"}}/>
         <Grid container>
-            <Grid item xs={5}>
+            <Grid item xs={12} md={5}>
             <Typography variant="h6" component="h6" align="left" style={{marginLeft:10,marginTop:5,fontFamily:"Pangolin"}}>
                 <b>Name: </b><input type="text" name="pname" value={pname} onChange={e => {e.preventDefault();setPname(e.target.value)}} style={{border:"none"}} />
             </Typography>
             </Grid>
-            <Grid item xs={3}></Grid>
-            <Grid item xs={4}>
-                <Typography variant="h6"  component="h6" align="right" style={{marginTop:5, marginRight:10,fontFamily:"Pangolin"}}>
+            <Grid item lg={3}></Grid>
+            <Grid item xs={12} md={4}>
+                <Typography variant="h6" component="h6" style={{marginTop:5,marginLeft:10, marginRight:10,fontFamily:"Pangolin"}}>
                     <b>Date: </b><input name="date" type="text" value={date} onChange={e => {e.preventDefault();setDate(e.target.value)}}  style={{border:"none"}} />
                 </Typography>
             </Grid>
@@ -121,18 +134,18 @@ const PrescriptionPad = ({setCurrent, savePres, current, history, clearCurrent})
         </Typography>
         <textarea name="co" value={co} onChange={e => {e.preventDefault();setCo(e.target.value)}} style={{height:"100", marginLeft:10, width:"80%",border:"none",fontFamily:"Abel"}}></textarea>
         <Grid container style={{marginBottom:40}}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
             <Typography variant="h6" component="h6" align="left" style={{marginLeft:10,marginTop:20,fontFamily:"Abel"}}>
                     <b>INV</b>
             </Typography>
             <textarea name="inv" value={inv} onChange={e => {e.preventDefault();setInv(e.target.value)}}  style={{height:"200", marginLeft:10, width:"80%",border:"none",fontFamily:"Abel"}}></textarea>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
             <div className={classes.root1}>
                 <Avatar variant="square" className={classes.square} src="/img/rx.jpg" style={{marginTop:20}}>
                 </Avatar>   
             </div>
-            <textarea name="medicines" value={medicines} onChange={e => {e.preventDefault();setMedicines(e.target.value)}} style={{height:"200", marginLeft:10, width:"80%",border:"none",fontFamily:"Abel"}}></textarea>
+            <textarea name="medicines" value={medicines} onChange={e => {e.preventDefault();setMedicines(e.target.value)}} style={{height:"200", marginLeft:10, width:"50%",border:"none",fontFamily:"Abel"}}></textarea>
             </Grid>
         </Grid>
         
@@ -141,20 +154,33 @@ const PrescriptionPad = ({setCurrent, savePres, current, history, clearCurrent})
 
             </Grid>
             <Grid item xs={4}>
-            <Avatar variant="square" className={classes.sign} src="/img/sign.jpeg" style={{marginTop:20, marginLeft:40, marginBottom:0}}>
-                </Avatar> 
+              <Grid container>
+              <Grid item xs={12}>
+              {/* <Avatar variant="square" className={classes.sign} src="/img/sign.jpeg" style={{marginTop:20, marginLeft:120,width:"30%", height:"100%", marginBottom:40}}>
+                </Avatar>  */}
+                <img src="/img/sign.jpeg" alt="sign" className={classes.sign1}/>
+              </Grid>
+            <Grid item xs={12}>
             <Typography variant="h6" component="h2" align="center" style={{marginTop:10, fontFamily:"Pangolin"}}>
                 Dr. Payal Laddha
-            </Typography>
+            </Typography>  
+            </Grid>
+            <Grid item xs={12}>
             <Typography variant="h6" component="h2" align="center" style={{fontFamily:"Pangolin"}}>
                 (MBBS, DCH, DNB)
             </Typography>
+            </Grid>
+            <Grid item xs={12}>
             <Typography variant="h6" component="h2" align="center" style={{marginTop:0,fontFamily:"Pangolin"}}>
                 <b>Consulted Pediatrician</b>
             </Typography>
+            </Grid>
+            <Grid item xs={12}>
             <Typography variant="body1" component="h2" align="center" style={{marginTop:0,fontFamily:"Pangolin"}}>
                 Reg no. 2015/05/2626
             </Typography>
+            </Grid>
+            </Grid>
             </Grid>
         </Grid>
         <Divider style={{width:"100%", height:"3" ,backgroundColor:"black"}}/>

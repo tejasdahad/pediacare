@@ -61,7 +61,8 @@ const CustomizedTables = ({getAppointments, uid, appointments}) => {
 
   return (
     <TableContainer component={Paper} style={{marginTop:100, width:"80%",marginLeft:"auto", marginRight:"auto"}}>
-      <Table className={classes.table} aria-label="customized table">
+      {appointments && appointments.length==0 && <h4>No appointments</h4>}
+      {appointments && appointments.length>0 && <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Patient Name</StyledTableCell>
@@ -88,7 +89,7 @@ const CustomizedTables = ({getAppointments, uid, appointments}) => {
             </StyledTableRow>
           ))}
         </TableBody>
-      </Table>
+      </Table>}
     </TableContainer>
   );
 }

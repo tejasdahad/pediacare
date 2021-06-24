@@ -250,12 +250,12 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
           <div className='col-md-3 col-md-offset-1 contact-info'>
             <div className='contact-item'>
               <h3>Contact Info</h3>
-              <p>
+              {/* <p>
                 <span>
                   <i className='fa fa-map-marker'></i> Address
                 </span>
                 {data ? data.address : 'loading'}
-              </p>
+              </p> */}
             </div>
             <div className='contact-item'>
               <p>
@@ -279,7 +279,7 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
       <div id='footer'>
         <div className='container text-center'>
           <p>
-            &copy; 2021 Pedia Care Clinic.
+            &copy; 2021 Panacea Pedia Care Clinic.
           </p>
         </div>
       </div>

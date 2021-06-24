@@ -119,11 +119,6 @@
             "icon": "fa fa-syringe",
             "title": "Vaccination related queries answered",
             "text": ""
-        },
-        {
-            "icon": "fa fa-magic",
-            "title": "Lorem ipsum",
-            "text": ""
         }
     ]
 }

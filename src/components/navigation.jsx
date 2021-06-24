@@ -2,7 +2,46 @@ import { connect } from "react-redux"
 import { startLogout } from "../actions/auth"
 import { Link } from 'react-router-dom'
 import { Fragment, useEffect, useState } from "react";
+import {Avatar, makeStyles} from '@material-ui/core'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    '& > *': {
+      margin: "auto",
+      marginTop:"20",
+      width: "90%",
+      height: "80%",
+    },
+  },
+  root1: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  square: {
+    backgroundColor: "white",
+    width:50,
+    height:50,marginTop:0, paddingTop:0
+  },
+  sign1: {
+    [theme.breakpoints.down('sm')]: {
+      width:"60%",
+      marginLeft:20
+    },
+    [theme.breakpoints.up('sm')]: {
+      width:"30%",
+      marginLeft:80
+    },
+    [theme.breakpoints.up('lg')]: {
+      width:"20%",
+      marginLeft:140
+    }
+  },
+}));
 const Navigation = (props) => {
+  const classes=useStyles();
   const [f,setF] = useState(false);
   const [auth, setAuth] = useState(false);
   useEffect(() => {
@@ -34,8 +73,9 @@ const Navigation = (props) => {
             <span className='icon-bar'></span>{' '}
             <span className='icon-bar'></span>{' '}
           </button>
+            
           <a className='navbar-brand page-scroll' href='#page-top'>
-            Pedia Care Clinic
+          PANACEA PEDIA CARE CLINIC
           </a>{' '}
         </div>
 
