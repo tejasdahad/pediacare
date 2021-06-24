@@ -88,6 +88,7 @@ const SignInSide = ({startLogin}) => {
           <Typography component="h1" variant="h2" align="center">
             Welcome to Panacea Pedia Care Clinic.
             <p>Sign In to continue</p>
+            
           </Typography>
           <form className={classes.form} noValidate>
             <Button
