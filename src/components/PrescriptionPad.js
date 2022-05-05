@@ -8,6 +8,13 @@ import Avatar from '@material-ui/core/Avatar';
 import { setCurrent, savePres, clearCurrent } from '../actions/prescription';
 import {connect} from 'react-redux';
 import { Fragment } from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,12 +81,22 @@ const PrescriptionPad = ({setCurrent, savePres, current, history, clearCurrent})
     }
   },[]);
 
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+  const [open, setOpen] = React.useState(false);
   const onSubmit = (e) =>{
     e.preventDefault();
     const data = {
       pname,age_sex,date,medicines,co,inv, patUid:current, appoiId:localStorage.getItem('app')
     }
     savePres({data});
+    setOpen(true);
     clearCurrent();
     setTimeout(() => {
       window.location.pathname='/admin';
@@ -97,6 +114,11 @@ const PrescriptionPad = ({setCurrent, savePres, current, history, clearCurrent})
 
   return (
       <Fragment>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{vertical:'top',horizontal:'center'}}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            Added Prescription
+          </Alert>
+      </Snackbar>
     <ThemeProvider theme={theme}>
     <div className={classes.root}>
       <Paper variant="outlined" style={{borderColor:"black"}}>

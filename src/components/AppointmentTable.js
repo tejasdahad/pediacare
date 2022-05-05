@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { getAppointments } from '../actions/appointment';
+import { getAppointments,deleteAppointment } from '../actions/appointment';
 import { connect } from 'react-redux'
 
 const StyledTableCell = withStyles((theme) => ({
@@ -47,7 +47,7 @@ const useStyles = makeStyles({
   },
 });
 
-const CustomizedTables = ({getAppointments, uid, appointments}) => {
+const CustomizedTables = ({getAppointments, uid, appointments,deleteAppointment}) => {
   const classes = useStyles();
     useEffect(() => {
         getAppointments(uid);
@@ -57,6 +57,15 @@ const CustomizedTables = ({getAppointments, uid, appointments}) => {
       console.log(row);
       localStorage.setItem('curr',row.patUid);
       localStorage.setItem('app',row.id);
+    }
+
+    const handleDelete = ({row}) => {
+      console.log(row);
+      deleteAppointment(row.id);
+      setTimeout(() => {
+        window.location.reload();
+        // window.location.pathname='/appointments';
+      },1000);
     }
 
   return (
@@ -71,6 +80,7 @@ const CustomizedTables = ({getAppointments, uid, appointments}) => {
             <StyledTableCell align="center">Allocated Time</StyledTableCell>
             <StyledTableCell align="center">Whatsapp Number</StyledTableCell>
             <StyledTableCell align="center">Prescription</StyledTableCell>
+            <StyledTableCell align="center">Delete</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -86,6 +96,10 @@ const CustomizedTables = ({getAppointments, uid, appointments}) => {
               <StyledTableCell align="center">{row.prescription===''?'-':<a href='/patient/prescription' onClick={e => {
                 handleClick({row})
               }}>View Prescription</a>}</StyledTableCell>
+              <StyledTableCell align="center">{row.prescription!==''?'-':<a href='#' onClick={e => {
+                handleDelete({row});
+
+              }}>Delete Appointment</a>}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
@@ -99,7 +113,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getAppointments: (uid) => dispatch(getAppointments(uid))
+    getAppointments: (uid) => dispatch(getAppointments(uid)),
+    deleteAppointment: (id) => dispatch(deleteAppointment(id))
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(CustomizedTables);

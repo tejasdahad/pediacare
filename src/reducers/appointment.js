@@ -11,12 +11,7 @@ export default (state = {} , action) => {
                 appointments: action.payload
             };
         case 'DELETED_APPOINTMENT':
-            return {
-                ...state,
-                appointments:appointments.filter((a) => {
-                    return a.id!=action.payload
-                })
-            }
+            return state;
         default:
             return state;
     }

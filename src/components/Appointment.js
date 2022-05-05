@@ -5,7 +5,9 @@ import { getAppointments } from '../actions/appointment';
 import AppointmentTable from './AppointmentTable';
 
 const Appointment = ({getAppointments, uid, appointments}) => {
-
+    useEffect(() =>{
+        getAppointments(uid);
+    },[]);
     return (
         <Fragment>
             <Navigation />

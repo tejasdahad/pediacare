@@ -1,6 +1,8 @@
 import React,{ useState } from 'react'
 import emailjs from 'emailjs-com'
 import { connect } from 'react-redux';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import { handlePatientApp, getAllAppointments } from '../actions/appointment';
 import {
   DatePicker,
@@ -16,6 +18,9 @@ import MomentUtils from '@date-io/moment';
 import DateFnsUtils from '@date-io/date-fns';
 import LuxonUtils from '@date-io/luxon';
 import { useEffect } from 'react';
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const initialState = {
   name: '',
@@ -31,6 +36,7 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
 
   
   const [{ name, email, prefDate, prefTime, phone }, setState] = useState(initialState);
+  const [open, setOpen] = React.useState(false);
   const [description,setDescription]=useState('');
   const [selectedDate, handleDateChange] = useState(new Date());
   const [slots, setSlots] = useState(["5:00","5:15","5:30","5:45","6:00","6:15","6:30","6:45"]);
@@ -78,6 +84,7 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setOpen(true);
     var a=formatDate(selectedDate);
     const data1 ={
       name, email, description, phone, appDate: a, appTime:prefTime, prescription:'', patUid:uid
@@ -92,6 +99,7 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
       .then(
         (result) => {
           console.log(result.text)
+          setOpen(true);
           clearState()
         },
         (error) => {
@@ -100,9 +108,23 @@ const Contact = ({data, handlePatientApp, uid, getAllAppointments, appointments}
       )
     clearState()
   }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <div>
       <div id='contact'>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{vertical:'top',horizontal:'center'}}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            Added Appointment
+          </Alert>
+      </Snackbar>
         <div className='container'>
           <div className='col-md-8'>
             <div className='row'>
